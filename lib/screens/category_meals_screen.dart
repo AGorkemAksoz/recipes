@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:recipes/widgets/meals_item.dart';
+
+import '../widgets/meals_item.dart';
 
 class CategoryMealsScreen extends StatelessWidget {
   List<dynamic> availableMeals;

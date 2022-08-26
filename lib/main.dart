@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:recipes/data/dummy_data.dart';
-import 'package:recipes/model/meals.dart';
-import 'package:recipes/screens/filters_screen.dart';
+import './model/meals.dart';
+import './data/dummy_data.dart';
+import './screens/filters_screen.dart';
 
 import './screens/category_meals_screen.dart';
 import './screens/meal_detail_screen.dart';
