@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:recipes/data/dummy_data.dart';
-import './model/meals.dart';
+import 'package:recipes/data/dummy_data.dart' as prefix;
+import 'package:recipes/screens/favorites_screen.dart';
 import './data/dummy_data.dart';
 import './screens/filters_screen.dart';
 
@@ -28,6 +28,7 @@ class _MyAppState extends State<MyApp> {
   };
 
   List<dynamic> _availableMeals = DUMMY_MEALS;
+  final List<dynamic> _favoritedMeals = [];
 
   void _setFilters(Map<String, bool> filterData) {
     setState(() {
@@ -49,6 +50,28 @@ class _MyAppState extends State<MyApp> {
         return true;
       }).toList();
     });
+  }
+
+  void _toogleFavorites(String mealId) {
+    final existingIndex =
+        _favoritedMeals.indexWhere((meal) => meal.id == mealId);
+
+    if (existingIndex >= 0) {
+      setState(() {
+        _favoritedMeals.removeAt(existingIndex);
+      });
+    } else {
+      setState(() {
+        _favoritedMeals.add(
+          prefix.DUMMY_MEALS.firstWhere((meal) => meal.id == mealId),
+        );
+        print(_favoritedMeals.toString());
+      });
+    }
+  }
+
+  bool _isMealFavorite(String id) {
+    return _favoritedMeals.any((meal) => meal.id == id);
   }
 
   @override
@@ -78,9 +101,12 @@ class _MyAppState extends State<MyApp> {
       routes: {
         CategoryMealsScreen.routeName: (ctx) =>
             CategoryMealsScreen(availableMeals: _availableMeals),
-        MealDetailScreen.routeName: (ctx) => MealDetailScreen(),
-        TabsScreen.routName: (ctx) => TabsScreen(),
+        MealDetailScreen.routeName: (ctx) => MealDetailScreen(
+            toogleFavorites: _toogleFavorites, isMealFavorite: _isMealFavorite),
+        TabsScreen.routName: (ctx) =>
+            TabsScreen(favoritesMeals: _favoritedMeals),
         FilterScreen.routeName: (ctx) => FilterScreen(saveFilters: _setFilters),
+        // FavoritesScreen.routeName: (ctx) => FavoritesScreen(favoritesMeals: _favoritedMeals),
       },
     );
   }
